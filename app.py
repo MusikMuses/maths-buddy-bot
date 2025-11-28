@@ -1,15 +1,17 @@
+import os
 from flask import Flask, request
 import requests
 import openai
 import json
 
+
 app = Flask(__name__)
 
 # === SET THESE VALUES ===
-VERIFY_TOKEN = "YOUR_VERIFY_TOKEN"
-WHATSAPP_TOKEN = "YOUR_WHATSAPP_ACCESS_TOKEN"
-PHONE_NUMBER_ID = "YOUR_PHONE_NUMBER_ID"
-OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
+WHATSAPP_TOKEN = os.getenv("WHATSAPP_ACCESS_TOKEN")
+PHONE_NUMBER_ID = os.getenv("PHONE_NUMBER_ID")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 openai.api_key = OPENAI_API_KEY
 
