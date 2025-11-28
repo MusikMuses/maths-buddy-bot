@@ -38,7 +38,6 @@ def verify():
     token = request.args.get("hub.verify_token")
     challenge = request.args.get("hub.challenge")
 
-    # Meta sends GET to verify your token
     if mode == "subscribe" and token == VERIFY_TOKEN:
         return challenge, 200
     return "Verification failed", 403
@@ -53,13 +52,11 @@ def incoming():
         msg = data["entry"][0]["changes"][0]["value"]["messages"][0]
         sender = msg["from"]
 
-        # Handle text messages
         if "text" in msg:
             user_message = msg["text"]["body"]
         else:
             user_message = "Please send a maths question in text 🙂"
 
-        # OpenAI response
         system_prompt = open("system_prompt.txt").read()
 
         response = openai.ChatCompletion.create(
@@ -71,8 +68,6 @@ def incoming():
         )
 
         reply = response["choices"][0]["message"]["content"]
-
-        # Send reply back to student
         send_message(sender, reply)
 
     except Exception as e:
@@ -81,6 +76,5 @@ def incoming():
     return "OK", 200
 
 
-# === RUN APP LOCALLY (Render uses Gunicorn so this is just a fallback) ===
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080)
